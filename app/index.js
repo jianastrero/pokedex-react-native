@@ -1,31 +1,14 @@
 import React from 'react';
-import { StatusBar } from 'expo-status-bar';
-import {Button, Image, ImageBackground, StyleSheet, Text, TextInput, View} from 'react-native';
-import {router} from "expo-router";
-import MyTextInput from "../src/component/MyTextInput";
-import MyButton from "../src/component/MyButton";
+import {StyleSheet, View} from 'react-native';
+import {router, useFocusEffect} from "expo-router";
 
 export default function Index() {
-    const [password, setPassword] = React.useState('');
+    useFocusEffect(() => {
+        router.replace('/login');
+    });
 
     return (
         <View style={styles.container}>
-            <StatusBar style="auto" translucent={true}/>
-            <Image
-                source={require('../assets/images/pokedex_logo.png')}
-                style={styles.pokedexLogo} />
-
-            <MyTextInput
-                value={password}
-                onChangeText={setPassword}
-                label="Enter your Password"
-                isPassword={true}
-                style={{ width: '80%', marginTop: 40 }} />
-
-            <MyButton
-                title="Login"
-                onPress={() => router.replace('/(tabs)')}
-                style={{ marginTop: 40 }}/>
         </View>
     );
 }
