@@ -1,14 +1,30 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {ActivityIndicator, Image, StyleSheet, View} from 'react-native';
 import {router, useFocusEffect} from "expo-router";
+import {useAuth} from "../src/context/AuthContext";
 
 export default function Index() {
-    useFocusEffect(() => {
-        router.replace('/login');
-    });
+    const { isLoggedIn } = useAuth();
+
+    React.useEffect(() => {
+        const timeout = setTimeout(() => {
+            if (isLoggedIn) {
+                router.replace('/(tabs)');
+            } else {
+                router.replace('/login');
+            }
+        }, 1_000);
+
+        return () => clearTimeout(timeout);
+    }, [isLoggedIn]);
 
     return (
         <View style={styles.container}>
+            <Image
+                source={require('../assets/images/pokedex_logo.png')}
+                style={styles.pokedexLogo} />
+
+            <ActivityIndicator size="large" color="#ff0000" />
         </View>
     );
 }

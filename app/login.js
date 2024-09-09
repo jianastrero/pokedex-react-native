@@ -1,12 +1,14 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import {Button, Image, ImageBackground, StyleSheet, Text, TextInput, View} from 'react-native';
+import {Alert, Button, Image, ImageBackground, StyleSheet, Text, TextInput, View} from 'react-native';
 import {router} from "expo-router";
 import MyTextInput from "../src/component/MyTextInput";
 import MyButton from "../src/component/MyButton";
+import {useAuth} from "../src/context/AuthContext";
 
 export default function Index() {
     const [password, setPassword] = React.useState('');
+    const { login } = useAuth();
 
     return (
         <View style={styles.container}>
@@ -24,7 +26,15 @@ export default function Index() {
 
             <MyButton
                 title="Login"
-                onPress={() => router.replace('/(tabs)')}
+                onPress={() => {
+                    login(password).then(success => {
+                        if (success) {
+                            router.replace('/(tabs)');
+                        } else {
+                            Alert.alert('Invalid Password', 'Please try again');
+                        }
+                    });
+                }}
                 style={{ marginTop: 40 }}/>
         </View>
     );
