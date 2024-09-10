@@ -90,6 +90,20 @@ function PokemonProvider({ children }) {
         }
     };
 
+    const toggleFavorite = (id) => {
+        const pokemon = getPokemonById(id);
+        if (pokemon) {
+            if (pokemon.isFavorite === undefined) {
+                pokemon.isFavorite = true;
+            } else {
+                pokemon.isFavorite = !pokemon.isFavorite;
+            }
+            setAllPokemons([...allPokemons]);
+
+            AsyncStorage.setItem('allPokemons', JSON.stringify(allPokemons));
+        }
+    };
+
     const deletePokemon = (id) => {
         const pokemon = getPokemonById(id);
         if (pokemon) {
@@ -102,7 +116,7 @@ function PokemonProvider({ children }) {
     };
 
     return (
-        <PokemonContext.Provider value={{ allPokemons, updatePokemonList, updatePokemon, deletePokemon, getPokemonById }}>
+        <PokemonContext.Provider value={{ allPokemons, updatePokemonList, updatePokemon, deletePokemon, getPokemonById, toggleFavorite }}>
             {children}
         </PokemonContext.Provider>
     );

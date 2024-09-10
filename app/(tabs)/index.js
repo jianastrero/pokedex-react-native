@@ -17,7 +17,7 @@ import {router} from "expo-router";
 
 
 export default function PokemonsScreen() {
-    const { allPokemons, updatePokemonList, deletePokemon } = usePokemons();
+    const { allPokemons, updatePokemonList, deletePokemon, toggleFavorite } = usePokemons();
     const [isLoading, setIsLoading] = React.useState(true);
 
     React.useEffect(() => {
@@ -28,19 +28,6 @@ export default function PokemonsScreen() {
             });
         }
     }, []);
-
-    React.useEffect(() => {
-        if (allPokemons.length > 0) {
-            console.log('allPokemons', allPokemons.length);
-            console.log('allPokemons[0]', allPokemons[0]);
-            console.log('allPokemons[0]', allPokemons[0].id);
-            console.log('allPokemons[0]', allPokemons[0].name.english);
-            console.log('allPokemons[0].image.hi_res', allPokemons[0].image.hi_res);
-            FileSystem.getInfoAsync(allPokemons[0].image.hi_res).then((fileInfo) => {
-                console.log('fileInfo', fileInfo);
-            });
-        }
-    }, [allPokemons]);
 
     return (
         <View style={styles.container}>
@@ -68,9 +55,13 @@ export default function PokemonsScreen() {
                                     <Image source={{ uri: item.image.sprite }} style={{ width: 100, height: 100 }} />
                                     <Text style={{ fontSize: 24, flex: 1 }}>{item.name.english}</Text>
                                     <MyButton
+                                        title={ item.isFavorite ? '❤️' : '🤍' }
+                                        onPress={() => toggleFavorite(item.id)}
+                                        style={{ backgroundColor: 'transparent', borderColor: 'black' }}/>
+                                    <MyButton
                                         title='🗑️'
                                         onPress={() => deletePokemon(item.id)}
-                                        style={{ marginEnd: 10 }}/>
+                                        style={{ marginEnd: 10, backgroundColor: 'transparent' }}/>
                                 </TouchableOpacity>
                             );
                         }}

@@ -1,6 +1,6 @@
 import React from "react";
 import {View, Text, StyleSheet, ActivityIndicator, ScrollView} from "react-native";
-import {router, useLocalSearchParams} from "expo-router";
+import {router, useGlobalSearchParams, useLocalSearchParams} from "expo-router";
 import {usePokemons} from "../../../src/context/PokemonContext";
 import MyTextInput from "../../../src/component/MyTextInput";
 import MyButton from "../../../src/component/MyButton";
