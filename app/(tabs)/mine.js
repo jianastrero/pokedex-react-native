@@ -9,7 +9,7 @@ export default function MineScreen() {
 
     React.useEffect(() => {
         updateCaughtPokemons();
-    });
+    }, []);
 
     return (
         <View style={styles.container}>
