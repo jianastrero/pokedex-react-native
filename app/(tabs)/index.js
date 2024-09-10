@@ -11,7 +11,6 @@ import {
     TouchableOpacity
 } from "react-native";
 import {usePokemons} from "../../src/context/PokemonContext";
-import * as FileSystem from 'expo-file-system';
 import MyButton from "../../src/component/MyButton";
 import {router} from "expo-router";
 
