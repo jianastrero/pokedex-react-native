@@ -18,6 +18,14 @@ export default function RootLayout() {
                         title: 'Pokemon Details',
                         headerShown: true
                     }} />
+                    <Stack.Screen name="pokemon/catch" options={{
+                        title: 'Gotta Catch \'Em All!',
+                        headerShown: true,
+                    }} />
+                    <Stack.Screen name="pokemon/caught/[id]" options={{
+                        title: 'Caught a new pokemon!',
+                        headerShown: true,
+                    }} />
                 </Stack>
             </PokemonProvider>
         </AuthProvider>

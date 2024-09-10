@@ -3,12 +3,20 @@ import {ImageBackground, StyleSheet} from "react-native";
 import {Gesture, GestureDetector, GestureHandlerRootView} from "react-native-gesture-handler";
 import Animated, {Easing, runOnJS, useAnimatedStyle, useSharedValue, withTiming} from 'react-native-reanimated';
 import {router} from "expo-router";
+import {usePokemons} from "../../src/context/PokemonContext";
 
 export default function CatchPokemonScreen() {
+    const { randomPokemon, addCaughtPokemon } = usePokemons();
+    const [pokemon, setPokemon] = React.useState(null);
+
+    React.useEffect(() => {
+        setPokemon(randomPokemon());
+    }, []);
 
     const pokemonCaught = () => {
         console.log('You caught a Pokemon!');
-        router.replace('pokemon/caught/1')
+        addCaughtPokemon(pokemon.id);
+        router.replace(`pokemon/caught/${pokemon.id}`);
     };
 
     const pokeballValues = useSharedValue({
@@ -100,7 +108,7 @@ export default function CatchPokemonScreen() {
 
             <GestureHandlerRootView style={styles.container}>
                 <Animated.Image
-                    source={require('../../assets/images/charizard.png')}
+                    source={{ uri: pokemon?.image.hi_res }}
                     style={[styles.pokemon, pokemonStyle]} />
 
                 <GestureDetector gesture={pokeballPan}>

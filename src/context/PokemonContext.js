@@ -115,8 +115,41 @@ function PokemonProvider({ children }) {
         }
     };
 
+    const randomPokemon = () => {
+        const randomIndex = Math.floor(Math.random() * allPokemons.length);
+        return allPokemons[randomIndex];
+    };
+
+    const addCaughtPokemon = (id) => {
+        const caughtPokemon = allPokemons.find(p => String(p.id) === String(id));
+        if (caughtPokemon) {
+            const newList = [...caughtPokemons, caughtPokemon];
+            setCaughtPokemons(newList);
+            AsyncStorage.setItem('caughtPokemons', JSON.stringify(newList));
+        }
+    };
+
+    const updateCaughtPokemons = async () => {
+        const caughtPokemonsJson = await AsyncStorage.getItem('caughtPokemons');
+        if (caughtPokemonsJson) {
+            const caughtPokemonList = JSON.parse(caughtPokemonsJson);
+            setCaughtPokemons(caughtPokemonList);
+        }
+    };
+
     return (
-        <PokemonContext.Provider value={{ allPokemons, updatePokemonList, updatePokemon, deletePokemon, getPokemonById, toggleFavorite }}>
+        <PokemonContext.Provider value={{
+            allPokemons,
+            updatePokemonList,
+            updatePokemon,
+            deletePokemon,
+            getPokemonById,
+            toggleFavorite,
+            randomPokemon,
+            caughtPokemons,
+            addCaughtPokemon,
+            updateCaughtPokemons
+        }}>
             {children}
         </PokemonContext.Provider>
     );
