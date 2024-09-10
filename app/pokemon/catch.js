@@ -109,7 +109,7 @@ export default function CatchPokemonScreen() {
             <GestureHandlerRootView style={styles.container}>
                 <Animated.Image
                     source={{ uri: pokemon?.image.hi_res }}
-                    style={[styles.pokemon, pokemonStyle]} />
+                    style={[styles.pokemon, pokemonStyle, {backgroundColor: 'transparent'}]} />
 
                 <GestureDetector gesture={pokeballPan}>
                     <Animated.Image
