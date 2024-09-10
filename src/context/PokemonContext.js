@@ -32,7 +32,6 @@ function PokemonProvider({ children }) {
     const [allPokemons, setAllPokemons] = React.useState([]);
     const [caughtPokemons, setCaughtPokemons] = React.useState([]);
 
-
     const updatePokemonList = async () => {
         // await FileSystem.deleteAsync(FileSystem.documentDirectory + 'image', { idempotent: true });
         // await AsyncStorage.clear();
@@ -76,8 +75,22 @@ function PokemonProvider({ children }) {
         return true;
     };
 
+    const getPokemonById = (id) => {
+        return allPokemons.find(pokemon => String(pokemon.id) === String(id));
+    };
+
+    const updatePokemon = ({ id, name }) => {
+        const pokemon = getPokemonById(id);
+        console.log('updatePokemon', id, name, pokemon);
+        if (pokemon) {
+            pokemon.name.english = name;
+            setAllPokemons([...allPokemons]);
+            AsyncStorage.setItem('allPokemons', JSON.stringify(allPokemons));
+        }
+    };
+
     return (
-        <PokemonContext.Provider value={{ allPokemons, updatePokemonList }}>
+        <PokemonContext.Provider value={{ allPokemons, updatePokemonList, updatePokemon }}>
             {children}
         </PokemonContext.Provider>
     );
