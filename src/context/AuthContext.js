@@ -2,6 +2,10 @@ import React from "react";
 import * as SecureStore from 'expo-secure-store';
 
 const AuthContext = React.createContext({ isLoggedIn: false });
+const Keys = {
+    isLoggedIn: 'isLoggedIn',
+    password: 'password',
+};
 
 const AuthProvider = ({ children }) => {
     const [isLoggedIn, setIsLoggedIn] = React.useState(false);

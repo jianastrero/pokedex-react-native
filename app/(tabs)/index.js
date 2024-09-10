@@ -1,5 +1,5 @@
 import React from "react";
-import {View, Text, Image, StyleSheet, ActivityIndicator, Button, FlatList} from "react-native";
+import {View, Text, Image, StyleSheet, ActivityIndicator, Button, FlatList, StatusBar} from "react-native";
 import {usePokemons} from "../../src/context/PokemonContext";
 import * as FileSystem from 'expo-file-system';
 
@@ -32,28 +32,29 @@ export default function PokemonsScreen() {
 
     return (
         <View style={styles.container}>
+            <StatusBar barStyle="dark-content" translucent={false} />
             {allPokemons.length === 0 || isLoading ? (
                 <ActivityIndicator size="large" color="#ff0000" />
             ) : (
-                <View>
-                    <Text>{allPokemons.length} Pokemons</Text>
-                    <Image source={{ uri: allPokemons[0].image.hi_res }} style={{ width: 250, height: 250 }} />
-                    <Text style={{ fontSize: 24 }}>{allPokemons[0].name.english}</Text>
-                    <Button
-                        title='Update name'
-                        onPress={() => {
-                            const pokemon = allPokemons[0];
-                            const newName = pokemon.name.english + ' ' + (Math.random() * 10).toFixed(0);
-                            console.log('newName', newName);
-                            console.log('pokemon.id', pokemon.id);
-                            updatePokemon({ id: pokemon.id, name: newName });
-                        }} />
-
+                <View style={{width: '100%'}}>
                     <FlatList
                         data={allPokemons}
-                        renderItem={() => {
-
-                        }} />
+                        renderItem={({ index, item }) => {
+                            return (
+                                <View style={{
+                                    display: 'flex',
+                                    flexDirection: 'row',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    width: '100%',
+                                    backgroundColor: index % 2 === 0 ? '#f0a0a0' : '#ffffff',
+                                }}>
+                                    <Image source={{ uri: item.image.sprite }} style={{ width: 100, height: 100 }} />
+                                    <Text style={{ fontSize: 24, flex: 1 }}>{item.name.english}</Text>
+                                </View>
+                            );
+                        }}
+                    style={{ height: '100%', width: '100%' }}/>
                 </View>
             )}
         </View>

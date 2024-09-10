@@ -85,6 +85,7 @@ function PokemonProvider({ children }) {
         if (pokemon) {
             pokemon.name.english = name;
             setAllPokemons([...allPokemons]);
+
             AsyncStorage.setItem('allPokemons', JSON.stringify(allPokemons));
         }
     };
