@@ -90,8 +90,19 @@ function PokemonProvider({ children }) {
         }
     };
 
+    const deletePokemon = (id) => {
+        const pokemon = getPokemonById(id);
+        if (pokemon) {
+            const index = allPokemons.indexOf(pokemon);
+            allPokemons.splice(index, 1);
+            setAllPokemons([...allPokemons]);
+
+            AsyncStorage.setItem('allPokemons', JSON.stringify(allPokemons));
+        }
+    };
+
     return (
-        <PokemonContext.Provider value={{ allPokemons, updatePokemonList, updatePokemon }}>
+        <PokemonContext.Provider value={{ allPokemons, updatePokemonList, updatePokemon, deletePokemon, getPokemonById }}>
             {children}
         </PokemonContext.Provider>
     );

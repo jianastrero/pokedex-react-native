@@ -1,11 +1,23 @@
 import React from "react";
-import {View, Text, Image, StyleSheet, ActivityIndicator, Button, FlatList, StatusBar} from "react-native";
+import {
+    View,
+    Text,
+    Image,
+    StyleSheet,
+    ActivityIndicator,
+    Button,
+    FlatList,
+    StatusBar,
+    TouchableOpacity
+} from "react-native";
 import {usePokemons} from "../../src/context/PokemonContext";
 import * as FileSystem from 'expo-file-system';
+import MyButton from "../../src/component/MyButton";
+import {router} from "expo-router";
 
 
 export default function PokemonsScreen() {
-    const { allPokemons, updatePokemonList, updatePokemon } = usePokemons();
+    const { allPokemons, updatePokemonList, deletePokemon } = usePokemons();
     const [isLoading, setIsLoading] = React.useState(true);
 
     React.useEffect(() => {
@@ -41,17 +53,25 @@ export default function PokemonsScreen() {
                         data={allPokemons}
                         renderItem={({ index, item }) => {
                             return (
-                                <View style={{
-                                    display: 'flex',
-                                    flexDirection: 'row',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    width: '100%',
-                                    backgroundColor: index % 2 === 0 ? '#f0a0a0' : '#ffffff',
-                                }}>
+                                <TouchableOpacity
+                                    onPress={() => {
+                                        router.push(`/pokemon/${item.id}`);
+                                    }}
+                                    style={{
+                                        display: 'flex',
+                                        flexDirection: 'row',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        width: '100%',
+                                        backgroundColor: index % 2 === 0 ? '#f0a0a0' : '#ffffff',
+                                    }}>
                                     <Image source={{ uri: item.image.sprite }} style={{ width: 100, height: 100 }} />
                                     <Text style={{ fontSize: 24, flex: 1 }}>{item.name.english}</Text>
-                                </View>
+                                    <MyButton
+                                        title='🗑️'
+                                        onPress={() => deletePokemon(item.id)}
+                                        style={{ marginEnd: 10 }}/>
+                                </TouchableOpacity>
                             );
                         }}
                     style={{ height: '100%', width: '100%' }}/>
